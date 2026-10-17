@@ -129,7 +129,7 @@
     <span class="label"><b>4</b> Numbers count up</span>
     <p class="note">They count up when you scroll to them. The numbers here are made up for the demo.</p>
     <div class="counters">
-      <div class="counter"><b data-to="2020" data-from="2000">0</b><span>In Miri since</span></div>
+      <div class="counter"><b data-to="2020" data-from="2000" data-plain>0</b><span>In Miri since</span></div>
       <div class="counter"><b data-to="350" data-plus>0</b><span>POS systems installed</span></div>
       <div class="counter"><b data-to="1200" data-plus>0</b><span>PCs supplied</span></div>
       <div class="counter"><b data-to="4">0</b><span>Official partnerships</span></div>
@@ -257,7 +257,7 @@ document.querySelectorAll('[data-to]').forEach(el => onView(el, () => {
   const to = +el.dataset.to, from = +(el.dataset.from || 0), plus = 'plus' in el.dataset, t0 = performance.now(), dur = 1800;
   const tick = (t) => {
     const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 4);
-    el.textContent = Math.round(from + (to - from) * e).toLocaleString('en') + (plus && k === 1 ? '+' : '');
+    const v = Math.round(from + (to - from) * e); el.textContent = ('plain' in el.dataset ? String(v) : v.toLocaleString('en')) + (plus && k === 1 ? '+' : '');
     if (k < 1) requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
