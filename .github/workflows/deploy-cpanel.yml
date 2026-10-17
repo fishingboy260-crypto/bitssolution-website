@@ -1,10 +1,8 @@
-# Publishes the site to ServerFreak cPanel (public_html) whenever main changes.
-# Work happens on branches; merging a pull request into main = "publish".
+# Publishes the site to ServerFreak cPanel (public_html).
+# Manual only: GitHub repo -> Actions -> "Publish to cPanel" -> Run workflow.
 name: Publish to cPanel
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:

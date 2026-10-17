@@ -1,0 +1,43 @@
+# Sample view on GitHub Pages, rebuilt every time main changes.
+# Does NOT touch the live site; publishing to cPanel is a separate, manual step.
+name: Preview on GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Copy only the site files, and tag every page "noindex" so Google
+      # never lists the preview copy instead of bitssolution.biz.
+      - name: Build preview copy
+        run: |
+          mkdir _preview
+          rsync -a --exclude '.git*' --exclude '.github' --exclude '.htaccess' \
+            --exclude '_headers' --exclude 'README.md' --exclude '_preview' ./ _preview/
+          find _preview -name '*.html' -exec sed -i \
+            's#<head>#<head>\n<meta name="robots" content="noindex, nofollow">#I' {} +
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _preview
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
