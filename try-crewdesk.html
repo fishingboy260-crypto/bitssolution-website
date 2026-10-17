@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try CrewDesk — Bits Solution Tech</title>
+<meta name="description" content="Try CrewDesk, the job-task and service-ticket tool built by Bits Solution Tech — free live demo, no signup.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #0A3826;
+    --forest-deep: #06251A;
+    --leaf: #2E9E63;
+    --leaf-tint: #E7F5EC;
+    --ink: #1A2230;
+    --ink-soft: #55636F;
+    --paper: #FBFBF9;
+    --border: #E1E6E1;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.5;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 24px; }
+
+  /* ===== Top bar ===== */
+  .topbar { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .topbar .home-link {
+    font-size: 0.85rem; color: var(--ink-soft); text-decoration: none;
+  }
+  .topbar .home-link:hover { color: var(--forest); }
+
+  /* ===== Hero ===== */
+  .hero { padding: 56px 0 40px; text-align: center; }
+  .hero .brand {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+    color: var(--ink-soft); letter-spacing: 0.02em; margin-bottom: 18px;
+  }
+  .hero .brand strong { color: var(--forest); }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 700; font-size: 2.5rem;
+    line-height: 1.15; margin: 0 0 16px; color: var(--forest-deep);
+  }
+  .hero p.lede {
+    font-size: 1.08rem; color: var(--ink-soft); max-width: 480px; margin: 0 auto 32px;
+  }
+  .cta-btn {
+    display: inline-block; background: var(--forest); color: #fff;
+    font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+    padding: 14px 32px; border-radius: 8px; text-decoration: none;
+  }
+  .cta-btn:hover { background: var(--forest-deep); }
+
+  /* ===== Context strip ===== */
+  .context { padding: 8px 0 48px; }
+  .context p {
+    font-size: 0.98rem; color: var(--ink-soft); max-width: 480px; margin: 0 auto; text-align: center;
+  }
+
+  /* ===== Try box ===== */
+  .try-section { padding-bottom: 56px; }
+  .try-card {
+    background: var(--leaf-tint); border: 1px solid var(--leaf);
+    border-radius: 12px; padding: 28px 24px;
+  }
+  .try-card h2 {
+    font-family: var(--font-display); font-size: 1.25rem; color: var(--forest-deep);
+    margin: 0 0 6px; font-weight: 700;
+  }
+  .try-card .note {
+    font-size: 0.88rem; color: #3D6B52; margin-bottom: 20px;
+  }
+  .login-list { display: flex; flex-direction: column; gap: 10px; }
+  .login-row {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .login-row .who { font-size: 0.92rem; }
+  .login-row .who .name { font-weight: 600; color: var(--ink); }
+  .login-row .who .role { color: var(--ink-soft); font-size: 0.82rem; }
+  .login-row .creds { text-align: right; font-size: 0.86rem; color: var(--ink-soft); }
+  .login-row .creds code {
+    background: var(--leaf-tint); color: var(--forest-deep); padding: 2px 6px; border-radius: 4px;
+    font-family: 'SF Mono', Consolas, monospace; font-size: 0.82rem;
+  }
+  .copy-btn {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    padding: 5px 10px; font-size: 0.78rem; color: var(--ink-soft); cursor: pointer;
+    font-family: var(--font-body); margin-left: 6px;
+  }
+  .copy-btn:hover { border-color: var(--leaf); color: var(--forest); }
+  .copy-btn.copied { border-color: var(--leaf); color: var(--leaf); }
+
+  /* ===== Feature line ===== */
+  .features { padding-bottom: 56px; }
+  .features p {
+    font-size: 0.98rem; color: var(--ink-soft); text-align: center; max-width: 500px; margin: 0 auto;
+  }
+  .features p strong { color: var(--ink); }
+
+  /* ===== Footer ===== */
+  .site-footer { border-top: 1px solid var(--border); padding: 32px 0 40px; }
+  .site-footer .company { font-family: var(--font-display); font-weight: 700; color: var(--forest-deep); margin-bottom: 8px; }
+  .site-footer .details { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.8; }
+  .site-footer .details a { text-decoration: none; color: var(--ink-soft); }
+  .site-footer .details a:hover { color: var(--forest); }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    .login-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .login-row .creds { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span style="font-family:var(--font-display); font-weight:700; color:var(--forest-deep);">BITS SOLUTION TECH</span>
+    <a class="home-link" href="/">&larr; Back to main site</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="brand">Crew<strong>Desk</strong></div>
+    <h1>See it running before you commit to anything.</h1>
+    <p class="lede">CrewDesk is the job-task and service-ticket tool we built and use ourselves — now open for you to click around, free, with no signup.</p>
+    <a class="cta-btn" href="https://bitssolution.biz/crewdesk-demo/login.php">Open the demo</a>
+  </div>
+</div>
+
+<div class="context">
+  <div class="wrap">
+    <p>Log in below as an Admin or a Staff member and try assigning a task, tracking a service ticket, or looking up a customer — it behaves exactly like the real thing, because it is the real thing, just with sample data.</p>
+  </div>
+</div>
+
+<div class="try-section">
+  <div class="wrap">
+    <div class="try-card">
+      <h2>Log in as any of these</h2>
+      <p class="note">Everything resets automatically every night — explore freely, add or delete anything, nothing here is permanent.</p>
+      <div class="login-list" id="login-list">
+        <div class="login-row">
+          <div class="who"><span class="name">Alex Chen</span><br><span class="role">Admin</span></div>
+          <div class="creds"><code class="u">alex</code> / <code class="p">Demo@2026</code> <button class="copy-btn" data-user="alex" data-pass="Demo@2026">Copy</button></div>
+        </div>
+        <div class="login-row">
+          <div class="who"><span class="name">Priya Nair</span><br><span class="role">Admin</span></div>
+          <div class="creds"><code class="u">priya</code> / <code class="p">Demo@2026</code> <button class="copy-btn" data-user="priya" data-pass="Demo@2026">Copy</button></div>
+        </div>
+        <div class="login-row">
+          <div class="who"><span class="name">Marcus Lim</span><br><span class="role">Staff</span></div>
+          <div class="creds"><code class="u">marcus</code> / <code class="p">Demo@2026</code> <button class="copy-btn" data-user="marcus" data-pass="Demo@2026">Copy</button></div>
+        </div>
+        <div class="login-row">
+          <div class="who"><span class="name">Siti Aminah</span><br><span class="role">Staff</span></div>
+          <div class="creds"><code class="u">siti</code> / <code class="p">Demo@2026</code> <button class="copy-btn" data-user="siti" data-pass="Demo@2026">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="wrap">
+    <p><strong>Try an Admin login</strong> to see the team-wide view — every open task and ticket across the business, plus what's been sitting untouched since yesterday. <strong>Try a Staff login</strong> to see it from the other side — just your own work, assigned and prioritized.</p>
+  </div>
+</div>
+
+<div class="site-footer">
+  <div class="wrap">
+    <div class="company">BITS SOLUTION TECH</div>
+    <div class="details">
+      Lot 2133, Ground Floor, Taman Yakin, 98000 Miri, Sarawak<br>
+      <a href="tel:+60184699700">+60 18-469 9700</a> &nbsp;·&nbsp;
+      <a href="https://wa.me/60184699700">WhatsApp</a> &nbsp;·&nbsp;
+      <a href="mailto:bitssolution@outlook.com">bitssolution@outlook.com</a><br>
+      Mon–Fri 9:00 AM–5:30 PM &nbsp;·&nbsp; Sat 9:00 AM–2:00 PM
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var text = btn.dataset.user + ' / ' + btn.dataset.pass;
+    navigator.clipboard.writeText(text).then(function () {
+      var original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

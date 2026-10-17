@@ -1,0 +1,3 @@
+# Cloudflare Pages only (not uploaded to cPanel): keep preview copies out of Google.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
