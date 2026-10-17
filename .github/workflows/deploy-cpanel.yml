@@ -32,4 +32,5 @@ jobs:
             .htaccess
             _headers
             css.zip
+            concepts/**
             README.md
