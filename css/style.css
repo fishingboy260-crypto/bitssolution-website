@@ -727,3 +727,12 @@ img { max-width: 100%; display: block; }
   .solutions-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; }
 }
+
+/* ============ Software product pages ============ */
+.shot-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: start; margin-bottom: 32px; }
+.product-shot { margin: 0 0 28px; }
+.product-shot img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(11,42,82,.08); }
+.product-shot figcaption { font-size: .85rem; color: var(--ink-soft); margin-top: 8px; }
+.product-section-title { margin: 40px 0 16px; font-size: 1.35rem; }
+.brochure-btn { display: inline-flex; align-items: center; gap: 8px; }
+@media (max-width: 760px) { .shot-grid { grid-template-columns: 1fr; } }
