@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Font switcher · Bits Solution</title>
+<link rel="icon" type="image/png" href="../images/favicon-32.png">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { height:100%; }
+  body { font-family:system-ui,sans-serif; background:#111; color:#fff; display:flex; flex-direction:column; }
+  .bar { padding:10px 14px; display:flex; gap:8px; align-items:center; overflow-x:auto; white-space:nowrap; border-bottom:1px solid #333; }
+  .bar strong { font-size:13px; margin-right:6px; color:#aaa; }
+  .bar button { background:#222; color:#fff; border:1px solid #444; border-radius:6px; padding:8px 12px; font-size:14px; cursor:pointer; }
+  .bar button.on { background:#2E7DE1; border-color:#2E7DE1; }
+  .info { padding:6px 14px; font-size:13px; color:#9fd3ff; border-bottom:1px solid #333; }
+  .info a { color:#9fd3ff; }
+  iframe { flex:1; width:100%; border:0; background:#fff; }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"><strong>Fonts:</strong></div>
+<div class="info" id="info"></div>
+<iframe id="site" src="../index.html" title="Your homepage"></iframe>
+
+<script>
+const pairs = [
+  { key: 'current',  name: 'Current',            head: 'Space Grotesk', body: 'Inter',       note: 'What the site uses now. The usual AI-tool pairing.' },
+  { key: 'saira',    name: '1 · Saira',          head: 'Saira',         body: 'Open Sans',   note: 'Squared, techy headings. Close to the bold "BITS" in your logo.' },
+  { key: 'exo',      name: '2 · Exo 2',          head: 'Exo 2',         body: 'Nunito Sans', note: 'Futuristic but friendly. Common on computer and gaming shop sites.' },
+  { key: 'montserrat', name: '3 · Montserrat',   head: 'Montserrat',    body: 'Open Sans',   note: 'Classic, very common for Malaysian company websites. Safe and professional.' },
+  { key: 'rajdhani', name: '4 · Rajdhani',       head: 'Rajdhani',      body: 'Hind',        note: 'Narrow, industrial, engineering feel.' },
+  { key: 'oswald',   name: '5 · Oswald',         head: 'Oswald',        body: 'Source Sans 3', note: 'Tall, bold, retail-shop energy. Strong headlines.' },
+  { key: 'raleway',  name: '6 · Raleway',        head: 'Raleway',       body: 'Lato',        note: 'Thin and elegant. Matches the outlined "SOLUTION" in your logo.' },
+  { key: 'poppins',  name: '7 · Poppins',        head: 'Poppins',       body: 'Poppins',     note: 'Round and modern. Very popular with local SMEs and apps.' },
+];
+
+const frame = document.getElementById('site'), bar = document.getElementById('bar'), info = document.getElementById('info');
+let current = new URLSearchParams(location.search).get('font') || 'current';
+
+const apply = () => {
+  const p = pairs.find(x => x.key === current) || pairs[0], doc = frame.contentDocument;
+  [...bar.querySelectorAll('button')].forEach(b => b.classList.toggle('on', b.dataset.key === p.key));
+  info.innerHTML = `<b>${p.head}</b> for headings + <b>${p.body}</b> for text. ${p.note}`;
+  history.replaceState(null, '', '?font=' + p.key);
+  if (!doc || !doc.head) return;
+  doc.getElementById('font-try-link')?.remove(); doc.getElementById('font-try-style')?.remove();
+  if (p.key === 'current') return;
+  const fam = [...new Set([p.head, p.body])].map(f => 'family=' + f.replace(/ /g, '+') + ':wght@400;500;600;700').join('&');
+  const link = doc.createElement('link'); link.id = 'font-try-link'; link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?' + fam + '&display=swap';
+  const style = doc.createElement('style'); style.id = 'font-try-style';
+  style.textContent = `:root { --font-display: '${p.head}', sans-serif; --font-body: '${p.body}', sans-serif; }`;
+  doc.head.append(link, style);
+};
+
+pairs.forEach(p => {
+  const b = document.createElement('button'); b.textContent = p.name; b.dataset.key = p.key;
+  b.onclick = () => { current = p.key; apply(); };
+  bar.appendChild(b);
+});
+frame.addEventListener('load', apply);
+apply();
+</script>
+</body>
+</html>
