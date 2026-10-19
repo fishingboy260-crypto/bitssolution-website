@@ -4,36 +4,29 @@ Static site (HTML/CSS/JS). Live on ServerFreak cPanel (`public_html`).
 
 ## How changes go live
 
-1. Changes are committed to `main`.
-2. **Preview:** GitHub Pages rebuilds the sample view automatically (repo → **Settings → Pages** shows the link).
+1. Changes are committed and pushed to `main`.
+2. **Preview:** GitHub Pages rebuilds the sample view about a minute later:
+   https://fishingboy260-crypto.github.io/bitssolution-website/
    Preview pages are marked `noindex`, so Google won't list them.
-3. **Publish:** when the preview looks right, repo → **Actions → Publish to cPanel → Run workflow**.
-   This uploads the changed files to `public_html`.
+3. **Get the upload file**, either:
+   - **On this PC:** run
+     `powershell -ExecutionPolicy Bypass -File "C:\Claude\Website\make-upload-zip.ps1"`
+     → `C:\Claude\Website\_publish\bitssolution-upload-YYYY-MM-DD.zip`
+   - **From GitHub:** repo → **Actions** → latest **Upload package** run → **Artifacts** → `upload-to-cpanel` (kept 30 days).
+4. **Publish by hand in cPanel** (only when the preview looks right):
+   1. *(Recommended)* File Manager → `public_html` → select all → **Compress** → download, as a backup.
+   2. File Manager → `public_html` → **Upload** the zip.
+   3. Right-click the zip → **Extract** to `/public_html`, allow overwrite.
+   4. Delete the uploaded zip from `public_html`.
+   5. Open https://bitssolution.biz and press Ctrl+F5.
 
-Nothing reaches the live site until step 3 is run by hand.
+Nothing reaches the live site until step 4.
 
-## One-time setup for publishing
+## What the upload zip contains
 
-### 1. FTP account (cPanel)
-
-cPanel → **FTP Accounts** → create e.g. `deploy@bitssolution.biz`, directory `public_html`, strong password.
-
-### 2. GitHub secrets
-
-Repo → **Settings → Secrets and variables → Actions → New repository secret**:
-
-| Name           | Value                                                     |
-| -------------- | --------------------------------------------------------- |
-| `FTP_SERVER`   | `ftp.bitssolution.biz` (or the server name cPanel shows)  |
-| `FTP_USERNAME` | the full FTP username, e.g. `deploy@bitssolution.biz`     |
-| `FTP_PASSWORD` | the FTP password                                          |
-
-If publishing fails with a TLS/SSL error, change `protocol: ftps` to `protocol: ftp` in `.github/workflows/deploy-cpanel.yml`.
-
-## Not uploaded to cPanel
-
-`.htaccess` (cPanel manages it), `README.md`, `.github/`.
-Files already on the server that aren't in this repo (e.g. `crewdesk-demo/`) are never touched.
+Everything except: `.htaccess` (cPanel manages it), `concepts/` (preview-only design ideas), `README.md`, `.github/`, `css.zip`, `make-upload-zip.ps1`.
+Extracting only adds or overwrites files. Files already on the server that aren't in the zip (e.g. `crewdesk-demo/`) are left alone,
+and files deleted here are **not** deleted on the server; remove those in File Manager.
 
 ## Known preview-only quirk
 

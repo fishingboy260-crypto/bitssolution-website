@@ -1,0 +1,33 @@
+# Builds the files to upload to ServerFreak cPanel, every time main changes.
+# Download: GitHub repo -> Actions -> latest "Upload package" run -> Artifacts -> upload-to-cpanel.
+# Then cPanel -> File Manager -> public_html -> Upload the zip -> Extract (overwrite).
+name: Upload package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Same file list as make-upload-zip.ps1. Never includes .htaccess
+      # (cPanel manages it) or the preview-only concepts/ pages.
+      - name: Collect site files
+        run: |
+          mkdir dist
+          rsync -a \
+            --exclude '.git*' --exclude '.github' --exclude '.htaccess' \
+            --exclude 'concepts' --exclude 'README.md' --exclude 'css.zip' \
+            --exclude 'make-upload-zip.ps1' --exclude '_publish' --exclude 'dist' \
+            ./ dist/
+          find dist -type f | sort
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: upload-to-cpanel
+          path: dist/
+          retention-days: 30
