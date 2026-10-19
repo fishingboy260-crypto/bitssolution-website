@@ -459,7 +459,7 @@ img { max-width: 100%; display: block; }
 }
 .hero-text h1 {
   font-size: clamp(2rem, 4vw, 2.9rem);
-  max-width: 12ch;
+  max-width: 20ch;
 }
 .hero-sub { max-width: 46ch; font-size: 1.05rem; }
 .hero-actions { display: flex; gap: 14px; margin-top: 8px; flex-wrap: wrap; }
